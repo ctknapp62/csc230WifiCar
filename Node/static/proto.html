@@ -1,0 +1,14 @@
+<html>
+<script>
+function UserAction(dir) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/steer/"+dir, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+    // var response = JSON.parse(xhttp.responseText);
+}
+</script>
+<button type="submit" onclick="UserAction('Right')">Right</button>
+<button type="submit" onclick="UserAction('Left')">Left</button>
+
+</html>
