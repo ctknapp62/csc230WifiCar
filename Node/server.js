@@ -25,12 +25,12 @@ app.get('/', function (req, res) {
 });
 
 app.get('/steer/:direction', function (req,res) {
-  var cw = (req.params.direction == 'Right' ? -1 : 1);
+  var cw = (req.params.direction == 'Right' ? 1 : -1);
   servo.step(20 * cw);
   console.log(req.params);
   res.send('');
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(2300, function () {
+  console.log('Example app listening on port 2300!');
 });
