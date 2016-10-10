@@ -1,14 +1,116 @@
 <html>
 <script>
-function UserAction(dir) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "/steer/"+dir, false);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send();
-    // var response = JSON.parse(xhttp.responseText);
-}
+    //Declaring variables for steering events
+    var right;
+    var left;
+    var center;
+
+    //Declaring variables for driving events
+    var forward;
+    var reverse;
+    var stop;
+
+    //Declaring variables for calibration events
+    var max;
+    var min;
+    var middle;
+
+    //Linking DOM ids to JS Events
+    window.onload = function() {
+
+        //Setting event for click on 'Right' button (calls UserSteer('Right'))
+        right = document.getElementById('Right').addEventListener('click', function() {
+            UserSteer('Right');
+        }, false);
+
+        //Setting event for click on 'Left' button (calls UserSteer('Left'))
+        left = document.getElementById('Left').addEventListener('click', function() {
+            UserSteer('Left');
+        }, false);
+
+        //Setting event for click on 'Center' button (calls UserSteer('Center'))
+        center = document.getElementById('Center').addEventListener('click', function() {
+            UserSteer('Center');
+        }, false);
+
+        //Setting event for click on 'Forward' button (calls UserDrive('Forward'))
+        forward = document.getElementById('Forward').addEventListener('click', function() {
+            UserDrive('Forward');
+        }, false);
+
+        //Setting event for click on 'Reverse' button (calls UserDrive('Reverse'))
+        reverse = document.getElementById('Reverse').addEventListener('click', function() {
+            UserDrive('Reverse');
+        }, false);
+
+        //Setting event for click on 'Stop' button (calls UserDrive('Stop'))
+        stop = document.getElementById('Stop').addEventListener('click', function() {
+            UserDrive('Stop');
+        }, false);
+
+        //Setting event for click on 'Max' button (calls UserCalibration('Max'))
+        max = document.getElementById('Max').addEventListener('click', function() {
+            UserCalibration('Max');
+        }, false);
+
+        //Setting event for click on 'Min' button (calls UserCalibration('Min'))
+        min = document.getElementById('Min').addEventListener('click', function() {
+            UserCalibration('Min');
+        }, false);
+
+        //Setting event for click on 'Middle' button (calls UserCalibration('Middle'))
+        middle = document.getElementById('Middle').addEventListener('click', function() {
+            UserCalibration('Middle');
+        }, false);
+
+    };
+
+    //Sending HTTP req to server.js for steering with the dirction passed
+    //Directions are: 'Right', 'Left', or 'Center'
+    function UserSteer(dir) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/steer/" + dir, false);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+        // var response = JSON.parse(xhttp.responseText);
+    }
+
+    //Sending HTTP req to server.js for drive with the dirction passed
+    //Directions are: 'Forward', 'Reverse', or 'Stop'
+    function UserDrive(dir) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/drive/" + dir, false);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+        //var response = JSON.parse(xhttp.responseText);
+    }
+
+    //Sending HTTP req to server.js for calibration with the dirction passed
+    //Directions are: 'Max', 'Min', or 'Middle'
+    function UserCalibration(dir) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/cal/" + dir, false);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+        //var response = JSON.parse(xhttp.responseText);
+    }
 </script>
-<button type="submit" onclick="UserAction('Right')">Right</button>
-<button type="submit" onclick="UserAction('Left')">Left</button>
+
+<!-- Creating buttons for UserSteer: Right, Left and Center -->
+<button type="submit" id="Right">Right</button>
+<button type="submit" id="Left">Left</button>
+<button type="submit" id="Center">Center</button>
+<br/>
+
+<!-- Creating buttons for UserDrive: Forward, Reverse and Stop -->
+<button type="submit" id="Forward">Forward</button>
+<button type="submit" id="Reverse">Reverse</button>
+<button type="submit" id="Stop">Stop</button>
+<br/>
+
+<!-- Creating buttons for UserCalibration: Max, Min and Middle -->
+<button type="submit" id="Max">Max</button>
+<button type="submit" id="Min">Min</button>
+<button type="submit" id="Middle">Middle</button>
 
 </html>
