@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //******************************************************
     //This part changes! Need to ifconfig -a and look at En0
     //******************************************************
-    String url = "http://172.20.10.4:2300";
+    String url = "http://172.20.10.3:2300";
 
     //Class to get HTTP requests off of main thread
     private class HttpBuilder extends AsyncTask<String, Integer, Long> {
@@ -167,9 +167,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     if (isChecked) {
                         dir = "Direction: Forward";
                         direction = "Forward";
+                        new HttpBuilder().execute(url+"/Forward/0");
+                        speed = 0;
                     } else {
                         dir = "Direction: Reverse";
                         direction = "Reverse";
+                        new HttpBuilder().execute(url+"/Reverse/0");
+                        speed = 0;
                     }
                     forwardDebug.setText(dir);
                 }

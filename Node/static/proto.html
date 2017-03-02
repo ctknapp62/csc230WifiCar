@@ -79,7 +79,7 @@
     //Directions are: 'Forward', 'Reverse', or 'Stop'
     function UserDrive(dir) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/drive/" + dir, false);
+        xhttp.open("GET", "/drive/" + dir+"/0", false);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
         //var response = JSON.parse(xhttp.responseText);

@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.14.0",
-    "johnny-five": "^0.10.1"
+    "johnny-five": "^0.10.1",
+    "ws": "^1.1.1"
   },
   "devDependencies": {},
   "scripts": {
