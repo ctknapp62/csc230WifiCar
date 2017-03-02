@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.fixedTop{
+  position: absolute;
+  top: 0;
+  right: 20;
+  width: 100px;
+}
+.fixedRight {
+    position: absolute;
+    top: 0;
+    right: 470px;
+    width: 100px;
+}
+.fixedLeft {
+    position: absolute;
+    top: 0;
+    left: 20;
+    width: 100px;
+}
+
+
+
+</style>
+
+
+<script>
+var current = "Wheel_Straight.bmp";
+var pos = current;
+var turn = 0;
+var turnRadius = 0;
+var right = "_Right.bmp";
+var left = "_Left.bmp";
+var wheel = "Wheel_";
+var direction = "forward";
+var ws;
+var speed = 0;
+
+window.onload = function(){
+  rightCanvas(current);
+  directionCanvas(direction);
+  ws = new WebSocket("ws://localhost:4000");
+  console.log("Connected");
+  ws.onopen = function (event) {
+    ws.send("Test open");
+    ws.onmessage= function(event){
+      console.log(event.data);
+      if(event.data == "Right"){
+        rightTurn();
+      }
+      else if(event.data == "Left"){
+        leftTurn();
+      }
+      else if(event.data == "Forward"){
+        forwardDirection();
+      }
+      else if(event.data == "Reverse"){
+        reverseDirection();
+      }
+      else if(event.data == "Center"){
+        center();
+      }
+      else{
+        speed = event.data;
+        setSpeed();
+      }
+    }
+  };
+}
+
+
+function rightCanvas(pos) {
+    leftCanvas(pos);
+    var c = document.getElementById("rightCanvas");
+    var ctx = c.getContext("2d");
+    var img = document.getElementById(pos);
+    ctx.clearRect(0, 0, 100, 180);
+    ctx.drawImage(img,10,10);
+}
+function leftCanvas(pos) {
+    var c = document.getElementById("leftCanvas");
+    var ctx = c.getContext("2d");
+    var img = document.getElementById(pos);
+    ctx.clearRect(0, 0, 100, 180);
+    ctx.drawImage(img,10,10);
+}
+function directionCanvas(dir) {
+    var c = document.getElementById("directionCanvas");
+    var ctx = c.getContext("2d");
+    console.log(dir);
+    var img = document.getElementById(dir);
+    ctx.clearRect(0, 0, 240, 240);
+    ctx.beginPath();
+    ctx.drawImage(img,10,10);
+}
+
+
+function leftTurn(){
+   if(turn <= 4 && turn > -4){
+     turn = turn - 1;
+     if(turn == 0){
+       current = "Wheel_Straight.bmp";
+     }
+     else if(turn < 0){
+       current = wheel+Math.abs(turn*5)+left;
+     }
+     else{
+       current = wheel+Math.abs(turn*5)+right;
+     }
+   }
+   console.log(current);
+   rightCanvas(current);
+}
+
+function rightTurn(){
+   if(turn< 4 && turn >= -4){
+     turn = turn + 1;
+     if(turn == 0){
+       current = "Wheel_Straight.bmp";
+     }
+     else if(turn < 0){
+       current = wheel+Math.abs(turn*5)+left;
+     }
+     else{
+       current = wheel+ Math.abs(turn*5)+right;
+     }
+   }
+   console.log(current);
+   rightCanvas(current);
+}
+
+function forwardDirection(){
+  if(direction != "Forward"){
+    directionCanvas("forward");
+    direction = "Forward"
+  }
+}
+
+function reverseDirection(){
+  if(direction != "Reverse"){
+    directionCanvas("reverse");
+    direction = "Reverse"
+  }
+}
+
+function setSpeed(){
+  var currentSpeed = document.getElementById("speedText");
+  currentSpeed.innerHTML= "<p>Speed = "+speed +" !</p>";
+}
+
+function speedTest(){
+  speed = speed + 10;
+  setSpeed();
+}
+
+function center(){
+  turn = 0;
+  current = "Wheel_Straight.bmp";
+  rightCanvas(current);
+}
+
+</script>
+<div class="center" id="Screen">
+  <canvas class="fixedLeft" id="leftCanvas" width="100" height="170">
+    Your browser does not support the HTML5 canvas tag.</canvas>
+
+  <img id="Drive_center" src="Drive_center.png" width="500" height="500">
+  <canvas class="fixedRight" id="rightCanvas" width="100" height="170">
+    Your browser does not support the HTML5 canvas tag.</canvas>
+</div>
+<div id="direction" class = "fixedTop">
+    <canvas id="directionCanvas" width="240" height="240">
+      Your browser does not support the HTML5 canvas tag.</canvas>
+    <div id = "speedText"></div>
+</div>
+<img id="Wheel_5_Right.bmp" src="Wheel_5_Right.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_5_Left.bmp" src="Wheel_5_Left.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_10_Right.bmp" src="Wheel_10_Right.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_10_Left.bmp" src="Wheel_10_Left.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_15_Right.bmp" src="Wheel_15_Right.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_15_Left.bmp" src="Wheel_15_Left.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_20_Right.bmp" src="Wheel_20_Right.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_20_Left.bmp" src="Wheel_20_Left.bmp" width="220" height="277" style="display:none;">
+<img id="Wheel_Straight.bmp" src="Wheel_Straight.bmp" width="220" height="277" style="display:none;">
+<img id="forward" src="Direction_Forward.png" width="220" height="277" style="display:none">
+<img id="reverse" src="Direction_Reverse.png" width="220" height="277" style="display:none">
+
+
+</body>
